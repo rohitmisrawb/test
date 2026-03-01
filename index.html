@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Dashboard — Wireframe</title>
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f4f5f7;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* ── Layout Shell ──────────────────────────────────── */
+    .app {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: 56px 1fr;
+      height: 100vh;
+    }
+
+    /* ── Top Bar ────────────────────────────────────────── */
+    .topbar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: #fff;
+      border-bottom: 1px solid #dfe1e6;
+    }
+    .topbar-brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0052cc;
+    }
+    .topbar-search {
+      width: 320px;
+      padding: 8px 12px;
+      border: 1px solid #dfe1e6;
+      border-radius: 6px;
+      font-size: 14px;
+      background: #f4f5f7;
+      outline: none;
+    }
+    .topbar-search:focus { border-color: #0052cc; background: #fff; }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #0052cc;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #6b778c;
+      padding: 4px;
+    }
+    .icon-btn:hover { color: #0052cc; }
+
+    /* ── Sidebar ────────────────────────────────────────── */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid #dfe1e6;
+      padding: 16px 0;
+      overflow-y: auto;
+    }
+    .sidebar-section {
+      padding: 0 16px;
+      margin-bottom: 24px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6b778c;
+      margin-bottom: 8px;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #42526e;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .sidebar-link:hover { background: #f4f5f7; }
+    .sidebar-link.active {
+      background: #deebff;
+      color: #0052cc;
+      font-weight: 600;
+    }
+    .sidebar-link .icon { width: 18px; text-align: center; }
+    .sidebar-badge {
+      margin-left: auto;
+      background: #dfe1e6;
+      color: #42526e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* ── Main Content ──────────────────────────────────── */
+    .main {
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    /* Header Row */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .page-title { font-size: 22px; font-weight: 700; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-primary { background: #0052cc; color: #fff; }
+    .btn-primary:hover { background: #0747a6; }
+    .btn-secondary { background: #fff; color: #42526e; border: 1px solid #dfe1e6; }
+    .btn-secondary:hover { background: #f4f5f7; }
+
+    /* Stat Cards Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #dfe1e6;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .stat-label { font-size: 12px; color: #6b778c; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-change { font-size: 12px; margin-top: 4px; }
+    .stat-change.up { color: #00875a; }
+    .stat-change.down { color: #de350b; }
+
+    /* Filter / Toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      font-size: 13px;
+      border: 1px solid #dfe1e6;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      color: #42526e;
+    }
+    .filter-btn:hover { background: #f4f5f7; }
+    .filter-btn.active { background: #deebff; border-color: #0052cc; color: #0052cc; font-weight: 600; }
+    .toolbar-spacer { flex: 1; }
+    .view-toggle { display: flex; gap: 0; }
+    .view-toggle button {
+      padding: 6px 12px;
+      font-size: 13px;
+      border: 1px solid #dfe1e6;
+      background: #fff;
+      cursor: pointer;
+      color: #42526e;
+    }
+    .view-toggle button:first-child { border-radius: 6px 0 0 6px; }
+    .view-toggle button:last-child { border-radius: 0 6px 6px 0; border-left: 0; }
+    .view-toggle button.active { background: #0052cc; color: #fff; border-color: #0052cc; }
+
+    /* ── Contacts Table ────────────────────────────────── */
+    .table-wrapper {
+      background: #fff;
+      border: 1px solid #dfe1e6;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6b778c;
+      border-bottom: 2px solid #dfe1e6;
+      background: #fafbfc;
+    }
+    tbody td {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid #f0f1f3;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #fafbfc; }
+    .contact-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .contact-name { font-weight: 600; color: #0052cc; cursor: pointer; }
+    .contact-name:hover { text-decoration: underline; }
+    .contact-email { font-size: 12px; color: #6b778c; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-lead { background: #deebff; color: #0052cc; }
+    .badge-customer { background: #e3fcef; color: #00875a; }
+    .badge-prospect { background: #fff0b3; color: #974f0c; }
+    .badge-churned { background: #ffebe6; color: #de350b; }
+    .deal-value { font-weight: 600; }
+
+    .checkbox { width: 16px; height: 16px; accent-color: #0052cc; cursor: pointer; }
+
+    /* ── Pipeline (Kanban) Section ─────────────────────── */
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .pipeline-col {
+      background: #f4f5f7;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 200px;
+    }
+    .pipeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .pipeline-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pipeline-count {
+      background: #dfe1e6;
+      color: #42526e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .pipeline-card {
+      background: #fff;
+      border: 1px solid #dfe1e6;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: grab;
+    }
+    .pipeline-card:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .pipeline-card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .pipeline-card-company { font-size: 12px; color: #6b778c; margin-bottom: 8px; }
+    .pipeline-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #6b778c;
+    }
+    .pipeline-card-value { font-weight: 600; color: #333; }
+
+    /* ── Activity Feed ─────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #dfe1e6;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f1f3;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .activity-dot.email { background: #0052cc; }
+    .activity-dot.call { background: #00875a; }
+    .activity-dot.meeting { background: #6554c0; }
+    .activity-dot.note { background: #ff991f; }
+    .activity-text { font-size: 14px; }
+    .activity-text strong { font-weight: 600; }
+    .activity-time { font-size: 12px; color: #6b778c; margin-top: 2px; }
+
+    /* ── Upcoming Tasks ────────────────────────────────── */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f1f3;
+      font-size: 14px;
+    }
+    .task-item:last-child { border-bottom: none; }
+    .task-check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #dfe1e6;
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .task-due { margin-left: auto; font-size: 12px; color: #6b778c; white-space: nowrap; }
+    .task-due.overdue { color: #de350b; font-weight: 600; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .pipeline { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .stats-row { grid-template-columns: 1fr; }
+      .pipeline { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ─── Top Bar ─────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-brand">CRM</div>
+    <input class="topbar-search" type="text" placeholder="Search contacts, deals, companies...">
+    <div class="topbar-actions">
+      <button class="icon-btn" title="Notifications">&#128276;</button>
+      <button class="icon-btn" title="Settings">&#9881;</button>
+      <div class="avatar">JD</div>
+    </div>
+  </header>
+
+  <!-- ─── Sidebar ─────────────────────────────────────── -->
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Main</div>
+      <a class="sidebar-link active">
+        <span class="icon">&#9632;</span> Dashboard
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#9782;</span> Contacts
+        <span class="sidebar-badge">248</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#9733;</span> Deals
+        <span class="sidebar-badge">37</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#9881;</span> Companies
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#9993;</span> Emails
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Pipeline</div>
+      <a class="sidebar-link">
+        <span class="icon">&#9654;</span> Sales Pipeline
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#10003;</span> Tasks
+        <span class="sidebar-badge">12</span>
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#128197;</span> Calendar
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reports</div>
+      <a class="sidebar-link">
+        <span class="icon">&#128200;</span> Analytics
+      </a>
+      <a class="sidebar-link">
+        <span class="icon">&#128196;</span> Reports
+      </a>
+    </div>
+  </nav>
+
+  <!-- ─── Main Content ────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Dashboard</h1>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary">&#8595; Export</button>
+        <button class="btn btn-primary">+ New Contact</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total Contacts</div>
+        <div class="stat-value">1,248</div>
+        <div class="stat-change up">+12% from last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Open Deals</div>
+        <div class="stat-value">37</div>
+        <div class="stat-change up">+4 this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pipeline Value</div>
+        <div class="stat-value">$482K</div>
+        <div class="stat-change up">+8.3% from last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Won This Month</div>
+        <div class="stat-value">$64,200</div>
+        <div class="stat-change down">-3% from last month</div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Leads</button>
+      <button class="filter-btn">Customers</button>
+      <button class="filter-btn">Prospects</button>
+      <div class="toolbar-spacer"></div>
+      <div class="view-toggle">
+        <button class="active" title="Table View">&#9776;</button>
+        <button title="Board View">&#9638;</button>
+      </div>
+    </div>
+
+    <!-- Contacts Table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32px"><input type="checkbox" class="checkbox"></th>
+            <th>Contact</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Deal Value</th>
+            <th>Last Activity</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background:#0052cc">AS</div>
+                <div>
+                  <div class="contact-name">Alice Smith</div>
+                  <div class="contact-email">alice@techcorp.io</div>
+                </div>
+              </div>
+            </td>
+            <td>TechCorp</td>
+            <td><span class="badge badge-customer">Customer</span></td>
+            <td class="deal-value">$24,000</td>
+            <td>2 hours ago</td>
+            <td>Jane D.</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background:#00875a">BJ</div>
+                <div>
+                  <div class="contact-name">Bob Johnson</div>
+                  <div class="contact-email">bob@acmeinc.com</div>
+                </div>
+              </div>
+            </td>
+            <td>Acme Inc.</td>
+            <td><span class="badge badge-lead">Lead</span></td>
+            <td class="deal-value">$18,500</td>
+            <td>Yesterday</td>
+            <td>Mark R.</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background:#6554c0">CW</div>
+                <div>
+                  <div class="contact-name">Carol Williams</div>
+                  <div class="contact-email">carol@globalsoft.com</div>
+                </div>
+              </div>
+            </td>
+            <td>GlobalSoft</td>
+            <td><span class="badge badge-prospect">Prospect</span></td>
+            <td class="deal-value">$45,000</td>
+            <td>3 days ago</td>
+            <td>Jane D.</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background:#ff991f">DM</div>
+                <div>
+                  <div class="contact-name">David Martinez</div>
+                  <div class="contact-email">david@startup.co</div>
+                </div>
+              </div>
+            </td>
+            <td>Startup Co</td>
+            <td><span class="badge badge-lead">Lead</span></td>
+            <td class="deal-value">$12,000</td>
+            <td>1 week ago</td>
+            <td>Sara K.</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" class="checkbox"></td>
+            <td>
+              <div class="contact-cell">
+                <div class="contact-avatar" style="background:#de350b">EL</div>
+                <div>
+                  <div class="contact-name">Emily Lee</div>
+                  <div class="contact-email">emily@megacorp.net</div>
+                </div>
+              </div>
+            </td>
+            <td>MegaCorp</td>
+            <td><span class="badge badge-churned">Churned</span></td>
+            <td class="deal-value">$32,000</td>
+            <td>2 weeks ago</td>
+            <td>Mark R.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pipeline Kanban -->
+    <h2 class="section-title">Sales Pipeline</h2>
+    <div class="pipeline">
+      <div class="pipeline-col">
+        <div class="pipeline-header">
+          <span class="pipeline-title">Qualified</span>
+          <span class="pipeline-count">4</span>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">Website Redesign</div>
+          <div class="pipeline-card-company">TechCorp</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$24,000</span>
+            <span>Jan 15</span>
+          </div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">Mobile App</div>
+          <div class="pipeline-card-company">Startup Co</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$12,000</span>
+            <span>Feb 3</span>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-header">
+          <span class="pipeline-title">Proposal</span>
+          <span class="pipeline-count">3</span>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">Cloud Migration</div>
+          <div class="pipeline-card-company">GlobalSoft</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$45,000</span>
+            <span>Feb 10</span>
+          </div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">Data Analytics</div>
+          <div class="pipeline-card-company">Acme Inc.</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$18,500</span>
+            <span>Feb 20</span>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-header">
+          <span class="pipeline-title">Negotiation</span>
+          <span class="pipeline-count">2</span>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">ERP Integration</div>
+          <div class="pipeline-card-company">MegaCorp</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$68,000</span>
+            <span>Mar 1</span>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-header">
+          <span class="pipeline-title">Won</span>
+          <span class="pipeline-count">5</span>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">Security Audit</div>
+          <div class="pipeline-card-company">TechCorp</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$15,200</span>
+            <span>Feb 28</span>
+          </div>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">SEO Package</div>
+          <div class="pipeline-card-company">Startup Co</div>
+          <div class="pipeline-card-footer">
+            <span class="pipeline-card-value">$8,400</span>
+            <span>Feb 25</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Feed + Tasks -->
+    <div class="two-col">
+      <div class="card">
+        <h3 class="card-title">Recent Activity</h3>
+        <div class="activity-item">
+          <div class="activity-dot email"></div>
+          <div>
+            <div class="activity-text"><strong>Jane D.</strong> sent a follow-up email to <strong>Alice Smith</strong></div>
+            <div class="activity-time">2 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot call"></div>
+          <div>
+            <div class="activity-text"><strong>Mark R.</strong> completed a discovery call with <strong>Bob Johnson</strong></div>
+            <div class="activity-time">4 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot meeting"></div>
+          <div>
+            <div class="activity-text"><strong>Sara K.</strong> scheduled a demo with <strong>David Martinez</strong></div>
+            <div class="activity-time">Yesterday at 3:45 PM</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot note"></div>
+          <div>
+            <div class="activity-text"><strong>Jane D.</strong> added a note to <strong>GlobalSoft</strong> deal</div>
+            <div class="activity-time">Yesterday at 11:20 AM</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot email"></div>
+          <div>
+            <div class="activity-text"><strong>Mark R.</strong> sent a proposal to <strong>Acme Inc.</strong></div>
+            <div class="activity-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Upcoming Tasks</h3>
+        <div class="task-item">
+          <div class="task-check"></div>
+          <span>Follow up with Alice Smith</span>
+          <span class="task-due overdue">Overdue</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check"></div>
+          <span>Prepare proposal for GlobalSoft</span>
+          <span class="task-due">Today</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check"></div>
+          <span>Demo call with Startup Co</span>
+          <span class="task-due">Tomorrow</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check"></div>
+          <span>Review MegaCorp contract</span>
+          <span class="task-due">Mar 4</span>
+        </div>
+        <div class="task-item">
+          <div class="task-check"></div>
+          <span>Quarterly pipeline review</span>
+          <span class="task-due">Mar 7</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
