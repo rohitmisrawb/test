@@ -4,393 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRM Dashboard — Wireframe</title>
-  <style>
-    /* ── Reset & Base ───────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #f4f5f7;
-      color: #333;
-      line-height: 1.5;
-    }
-
-    /* ── Layout Shell ──────────────────────────────────── */
-    .app {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: 56px 1fr;
-      height: 100vh;
-    }
-
-    /* ── Top Bar ────────────────────────────────────────── */
-    .topbar {
-      grid-column: 1 / -1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      background: #fff;
-      border-bottom: 1px solid #dfe1e6;
-    }
-    .topbar-brand {
-      font-size: 18px;
-      font-weight: 700;
-      color: #0052cc;
-    }
-    .topbar-search {
-      width: 320px;
-      padding: 8px 12px;
-      border: 1px solid #dfe1e6;
-      border-radius: 6px;
-      font-size: 14px;
-      background: #f4f5f7;
-      outline: none;
-    }
-    .topbar-search:focus { border-color: #0052cc; background: #fff; }
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #0052cc;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .icon-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 18px;
-      color: #6b778c;
-      padding: 4px;
-    }
-    .icon-btn:hover { color: #0052cc; }
-
-    /* ── Sidebar ────────────────────────────────────────── */
-    .sidebar {
-      background: #fff;
-      border-right: 1px solid #dfe1e6;
-      padding: 16px 0;
-      overflow-y: auto;
-    }
-    .sidebar-section {
-      padding: 0 16px;
-      margin-bottom: 24px;
-    }
-    .sidebar-section-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #6b778c;
-      margin-bottom: 8px;
-    }
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
-      font-size: 14px;
-      color: #42526e;
-      text-decoration: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .sidebar-link:hover { background: #f4f5f7; }
-    .sidebar-link.active {
-      background: #deebff;
-      color: #0052cc;
-      font-weight: 600;
-    }
-    .sidebar-link .icon { width: 18px; text-align: center; }
-    .sidebar-badge {
-      margin-left: auto;
-      background: #dfe1e6;
-      color: #42526e;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    /* ── Main Content ──────────────────────────────────── */
-    .main {
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    /* Header Row */
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .page-title { font-size: 22px; font-weight: 700; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .btn-primary { background: #0052cc; color: #fff; }
-    .btn-primary:hover { background: #0747a6; }
-    .btn-secondary { background: #fff; color: #42526e; border: 1px solid #dfe1e6; }
-    .btn-secondary:hover { background: #f4f5f7; }
-
-    /* Stat Cards Row */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: #fff;
-      border: 1px solid #dfe1e6;
-      border-radius: 8px;
-      padding: 20px;
-    }
-    .stat-label { font-size: 12px; color: #6b778c; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .stat-value { font-size: 28px; font-weight: 700; }
-    .stat-change { font-size: 12px; margin-top: 4px; }
-    .stat-change.up { color: #00875a; }
-    .stat-change.down { color: #de350b; }
-
-    /* Filter / Toolbar */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 6px 14px;
-      font-size: 13px;
-      border: 1px solid #dfe1e6;
-      border-radius: 6px;
-      background: #fff;
-      cursor: pointer;
-      color: #42526e;
-    }
-    .filter-btn:hover { background: #f4f5f7; }
-    .filter-btn.active { background: #deebff; border-color: #0052cc; color: #0052cc; font-weight: 600; }
-    .toolbar-spacer { flex: 1; }
-    .view-toggle { display: flex; gap: 0; }
-    .view-toggle button {
-      padding: 6px 12px;
-      font-size: 13px;
-      border: 1px solid #dfe1e6;
-      background: #fff;
-      cursor: pointer;
-      color: #42526e;
-    }
-    .view-toggle button:first-child { border-radius: 6px 0 0 6px; }
-    .view-toggle button:last-child { border-radius: 0 6px 6px 0; border-left: 0; }
-    .view-toggle button.active { background: #0052cc; color: #fff; border-color: #0052cc; }
-
-    /* ── Contacts Table ────────────────────────────────── */
-    .table-wrapper {
-      background: #fff;
-      border: 1px solid #dfe1e6;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-    table { width: 100%; border-collapse: collapse; }
-    thead th {
-      text-align: left;
-      padding: 12px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #6b778c;
-      border-bottom: 2px solid #dfe1e6;
-      background: #fafbfc;
-    }
-    tbody td {
-      padding: 12px 16px;
-      font-size: 14px;
-      border-bottom: 1px solid #f0f1f3;
-    }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: #fafbfc; }
-    .contact-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .contact-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .contact-name { font-weight: 600; color: #0052cc; cursor: pointer; }
-    .contact-name:hover { text-decoration: underline; }
-    .contact-email { font-size: 12px; color: #6b778c; }
-    .badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .badge-lead { background: #deebff; color: #0052cc; }
-    .badge-customer { background: #e3fcef; color: #00875a; }
-    .badge-prospect { background: #fff0b3; color: #974f0c; }
-    .badge-churned { background: #ffebe6; color: #de350b; }
-    .deal-value { font-weight: 600; }
-
-    .checkbox { width: 16px; height: 16px; accent-color: #0052cc; cursor: pointer; }
-
-    /* ── Pipeline (Kanban) Section ─────────────────────── */
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .pipeline {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .pipeline-col {
-      background: #f4f5f7;
-      border-radius: 8px;
-      padding: 12px;
-      min-height: 200px;
-    }
-    .pipeline-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .pipeline-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-    .pipeline-count {
-      background: #dfe1e6;
-      color: #42526e;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-    .pipeline-card {
-      background: #fff;
-      border: 1px solid #dfe1e6;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 8px;
-      cursor: grab;
-    }
-    .pipeline-card:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-    .pipeline-card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-    .pipeline-card-company { font-size: 12px; color: #6b778c; margin-bottom: 8px; }
-    .pipeline-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #6b778c;
-    }
-    .pipeline-card-value { font-weight: 600; color: #333; }
-
-    /* ── Activity Feed ─────────────────────────────────── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 24px;
-    }
-    .card {
-      background: #fff;
-      border: 1px solid #dfe1e6;
-      border-radius: 8px;
-      padding: 20px;
-    }
-    .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .activity-item {
-      display: flex;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f1f3;
-    }
-    .activity-item:last-child { border-bottom: none; }
-    .activity-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-top: 6px;
-      flex-shrink: 0;
-    }
-    .activity-dot.email { background: #0052cc; }
-    .activity-dot.call { background: #00875a; }
-    .activity-dot.meeting { background: #6554c0; }
-    .activity-dot.note { background: #ff991f; }
-    .activity-text { font-size: 14px; }
-    .activity-text strong { font-weight: 600; }
-    .activity-time { font-size: 12px; color: #6b778c; margin-top: 2px; }
-
-    /* ── Upcoming Tasks ────────────────────────────────── */
-    .task-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f1f3;
-      font-size: 14px;
-    }
-    .task-item:last-child { border-bottom: none; }
-    .task-check {
-      width: 16px;
-      height: 16px;
-      border: 2px solid #dfe1e6;
-      border-radius: 4px;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-    .task-due { margin-left: auto; font-size: 12px; color: #6b778c; white-space: nowrap; }
-    .task-due.overdue { color: #de350b; font-weight: 600; }
-
-    /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
-      .pipeline { grid-template-columns: repeat(2, 1fr); }
-      .two-col { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .stats-row { grid-template-columns: 1fr; }
-      .pipeline { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -459,7 +73,7 @@
     <!-- Page Header -->
     <div class="page-header">
       <h1 class="page-title">Dashboard</h1>
-      <div style="display:flex;gap:8px;">
+      <div class="page-header-actions">
         <button class="btn btn-secondary">&#8595; Export</button>
         <button class="btn btn-primary">+ New Contact</button>
       </div>
@@ -765,5 +379,39 @@
   </main>
 </div>
 
+<!-- ─── New Contact Modal ───────────────────────────── -->
+<div class="modal-overlay" id="new-contact-modal">
+  <div class="modal">
+    <h2 class="modal-title">New Contact</h2>
+    <form id="new-contact-form">
+      <div class="form-group">
+        <label for="contact-name">Full Name</label>
+        <input type="text" id="contact-name" placeholder="e.g. Jane Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="contact-email">Email</label>
+        <input type="email" id="contact-email" placeholder="e.g. jane@company.com" required>
+      </div>
+      <div class="form-group">
+        <label for="contact-company">Company</label>
+        <input type="text" id="contact-company" placeholder="e.g. Acme Inc.">
+      </div>
+      <div class="form-group">
+        <label for="contact-status">Status</label>
+        <select id="contact-status">
+          <option value="lead">Lead</option>
+          <option value="prospect">Prospect</option>
+          <option value="customer">Customer</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Contact</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
