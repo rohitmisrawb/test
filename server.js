@@ -5,6 +5,7 @@ const contactsRouter = require("./routes/contacts");
 const dealsRouter = require("./routes/deals");
 const tasksRouter = require("./routes/tasks");
 const activitiesRouter = require("./routes/activities");
+const statsRouter = require("./routes/stats");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.use("/api/contacts", contactsRouter);
 app.use("/api/deals", dealsRouter);
 app.use("/api/tasks", tasksRouter);
 app.use("/api/activities", activitiesRouter);
+app.use("/api/stats", statsRouter);
 
 // Serve the front-end for any non-API route
 app.get("/{*splat}", function (req, res) {
